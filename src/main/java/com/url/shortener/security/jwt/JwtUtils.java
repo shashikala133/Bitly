@@ -56,7 +56,7 @@ public class JwtUtils {
         try {
             Jwts.parser().verifyWith((SecretKey) key())
                     .build().parseSignedClaims(token);
-            return true;
+                     return true;
         } catch (JwtException e) {
             throw new RuntimeException(e);
         } catch (IllegalArgumentException e) {
