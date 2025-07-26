@@ -1,7 +1,10 @@
 package com.url.shortener.service;
 
 import com.url.shortener.dto.LoginRequest;
+import com.url.shortener.dto.UrlMappingDto;
+import com.url.shortener.model.UrlMapping;
 import com.url.shortener.model.User;
+import com.url.shortener.repository.UrlMappingRepository;
 import com.url.shortener.repository.UserRepository;
 import com.url.shortener.security.jwt.JwtAuthenticationResponse;
 import com.url.shortener.security.jwt.JwtUtils;
@@ -12,8 +15,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -26,6 +34,8 @@ public class UserService {
     private AuthenticationManager authenticationManager;
     @Autowired
     private JwtUtils jwtUtils;
+    @Autowired
+    private UrlMappingRepository urlMappingRepository;
 
     public User registerUser(User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -40,4 +50,12 @@ public class UserService {
         String token = jwtUtils.generateToken(userDetails);
         return new JwtAuthenticationResponse(token);
     }
+
+    public User findUser(String name) {
+        return userRepository.findByUsername(name).orElseThrow(
+                ()->new UsernameNotFoundException("user not found with given username "+name)
+        );
+    }
+
+
 }

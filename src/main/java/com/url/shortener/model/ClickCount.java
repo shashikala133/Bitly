@@ -16,4 +16,37 @@ public class ClickCount {
     @ManyToOne
     @JoinColumn(name = "url_mapping_id")
     private UrlMapping urlMapping;
+
+    public ClickCount(Long id, LocalDateTime clickDate, UrlMapping urlMapping) {
+        this.id = id;
+        this.clickDate = clickDate;
+        this.urlMapping = urlMapping;
+    }
+
+    public ClickCount() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getClickDate() {
+        return clickDate;
+    }
+
+    public void setClickDate(LocalDateTime clickDate) {
+        this.clickDate = clickDate;
+    }
+
+    public UrlMapping getUrlMapping() {
+        return urlMapping;
+    }
+
+    public void setUrlMapping(UrlMapping urlMapping) {
+        this.urlMapping = urlMapping;
+    }
 }
